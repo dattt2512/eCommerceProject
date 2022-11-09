@@ -1,0 +1,20 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+    <div style="display: flex; justify-content: space-between; padding: 10px;">
+        <div>
+            <ul style="display: flex;">
+                <li style="margin-right: 50px;"><a th:href="@{/}">Home</a></li>
+                <li sec:authorize="hasAnyAuthority('Admin')" style="margin-right: 50px;"><a th:href="@{/admin/users/page/1}">Admin</a></li>
+                <li sec:authorize="hasAnyAuthority('Admin', 'Editor')"><a th:href="@{/products}">Product Manager</a></li>
+            </ul>
+        </div>
+        <div>
+            <ul style="display: flex;">
+                <li style="margin-right: 50px;" th:unless="${#request.userPrincipal != null}"><a th:href="@{/login}">Login</a></li>
+                <li style="margin-right: 50px;" th:if="${#request.userPrincipal == null}"><a th:href="@{/register}">Register</a></li>
+                <li th:if="${#request.userPrincipal != null}"><a th:href="@{/logout}">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</div>

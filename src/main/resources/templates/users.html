@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+<th:block th:include="/_menu"></th:block>
+<div class="container-fluid text-center">
+    <h1 style="text-decoration: underline">ADMIN PAGE</h1>
+    <div th:if="${message}" th:text="${message}" class="alert alert-success text-center"></div>
+    <div style="float: left">
+    <h2>User Manager</h2>
+        <a class="h3" th:href="@{/admin/users/new}">Add New User</a>
+    </div>
+    <div>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>E-Mail</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Gender</th>
+                    <th>Roles</th>
+                    <th>Enabled</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <th:block th:each="user : ${usersList}">
+                    <tr>
+                        <td th:utext="${user.userId}"></td>
+                        <td th:utext="${user.email}"></td>
+                        <td th:utext="${user.firstName}"></td>
+                        <td th:utext="${user.lastName}"></td>
+                        <td th:utext="${user.gender}"></td>
+                        <td th:utext="${user.roles}"></td>
+                        <td th:utext="${user.enabled}"></td>
+                        <td>
+                            <a class="h4 m-2" th:href="@{'/admin/users/edit/' + ${user.userId}}">Edit</a>
+                            <a class="h4 m-2" th:href="@{'/admin/users/delete/' + ${user.userId}}">Delete</a>
+                        </td>
+                    </tr>
+                </th:block>
+            </tbody>
+        </table>
+        <div style="margin-top: 20px">
+            Total Users: [[${totalUsers}]] - Pages [[${currentPage}]] of [[${totalPages}]] ---
+            <a th:if="${currentPage > 1}" th:href="@{'/admin/users/page/1'}">First</a>
+            <span th:unless="${currentPage > 1}">First</span>
+            <a th:if="${currentPage > 1}" th:href="@{'/admin/users/page/' + ${currentPage - 1}}">Previous</a>
+            <span th:unless="${currentPage > 1}">Previous</span>
+
+            <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+        <a th:if="${currentPage != i}"
+           th:href="@{'/admin/users/page/' + ${i}}">[[${i}]]</a>
+        <span th:unless="${currentPage != i}">[[${i}]]</span>
+        &nbsp;
+        </span>
+            <a th:if="${currentPage < totalPages}" th:href="@{'/admin/users/page/'+${currentPage + 1}}">Next</a>
+            <a th:unless="${currentPage < totalPages}">Next</a>
+            <a th:if="${currentPage < totalPages}" th:href="@{'/admin/users/page/'+${totalPages}}">Last</a>
+            <span th:unless="${currentPage < totalPages}">Last</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>HomePage</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+
+<body>
+<!-- Include _menu.html -->
+<th:block th:include="/_menu"></th:block>
+<div class="container-fluid text-center">
+
+    <h4 th:if="${message != null}" th:utext="${message}" style="color: red;"></h4>
+    <div th:if="${loginedUser != null}" class="m-3 font-weight-bold">
+        <span th:utext="${loginedUser.email}"></span><br/>
+        Roles: <span th:utext="${loginedUser.roles}"></span>
+    </div>
+</div>
+</body>
+</html>
