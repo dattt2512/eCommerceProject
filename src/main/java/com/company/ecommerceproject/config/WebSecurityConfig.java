@@ -56,7 +56,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests().antMatchers("/", "/login", "/logout", "/register").permitAll();
 
-        http.authorizeRequests().antMatchers("/admin/**").access("hasAnyAuthority('Admin')");
+        http.authorizeRequests().antMatchers("/admin/**").access("hasAnyAuthority('Admin', 'Manager', 'Employee')");
+
+        http.authorizeRequests().antMatchers("/admin/users/**").access("hasAnyAuthority('Admin')");
 
         http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
 

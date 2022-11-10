@@ -66,8 +66,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void setDefaultPermission(User user) {
-        user.setEnabled(false);
-        user.addRole(roleRepo.findByName("User"));
+        user.addRole(roleRepo.findByName("Customer"));
     }
 
     @Override
