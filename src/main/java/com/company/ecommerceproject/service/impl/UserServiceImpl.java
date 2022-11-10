@@ -1,7 +1,7 @@
 package com.company.ecommerceproject.service.impl;
 
 import com.company.ecommerceproject.config.AppConfig;
-import com.company.ecommerceproject.dto.UserForm;
+import com.company.ecommerceproject.dto.UserFormDTO;
 import com.company.ecommerceproject.exception.UserNotFoundException;
 import com.company.ecommerceproject.entities.User;
 import com.company.ecommerceproject.repository.RoleRepository;
@@ -51,14 +51,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createRegisterUser(UserForm userForm) {
-        String encyptedPassword = appConfig.passwordEncoder().encode(userForm.getPassword());
+    public User createRegisterUser(UserFormDTO userFormDTO) {
+        String encyptedPassword = appConfig.passwordEncoder().encode(userFormDTO.getPassword());
         User user = new User();
-        user.setEmail(userForm.getEmail());
-        user.setFirstName(userForm.getFirstName());
-        user.setLastName(userForm.getLastName());
+        user.setEmail(userFormDTO.getEmail());
+        user.setFirstName(userFormDTO.getFirstName());
+        user.setLastName(userFormDTO.getLastName());
         user.setEncryptedPassword(encyptedPassword);
-        user.setGender(userForm.getGender());
+        user.setGender(userFormDTO.getGender());
         return user;
     }
 

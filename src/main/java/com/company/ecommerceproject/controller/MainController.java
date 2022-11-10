@@ -1,8 +1,8 @@
 package com.company.ecommerceproject.controller;
 
 import com.company.ecommerceproject.beans.MyUserDetails;
-import com.company.ecommerceproject.dto.UserForm;
-import com.company.ecommerceproject.dto.UserFormValidator;
+import com.company.ecommerceproject.dto.UserFormDTO;
+import com.company.ecommerceproject.validator.UserFormValidator;
 import com.company.ecommerceproject.entities.User;
 import com.company.ecommerceproject.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +10,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.security.Principal;
 
 @Controller
@@ -33,7 +33,7 @@ public class MainController {
         }
         System.out.println("Target: " + target);
 
-        if (target.getClass() == UserForm.class) {
+        if (target.getClass() == UserFormDTO.class) {
             dataBinder.setValidator(userFormValidator);
         }
     }
@@ -79,22 +79,22 @@ public class MainController {
 
     @GetMapping("/register")
     public String showRegister(Model model) {
-        UserForm userForm = new UserForm();
-        model.addAttribute("userForm", userForm);
+        UserFormDTO userFormDTO = new UserFormDTO();
+        model.addAttribute("userForm", userFormDTO);
         return "registerPage";
     }
 
     @PostMapping("/register")
     public String saveRegister(Model model,
-                               @ModelAttribute("userForm") @Validated UserForm userForm,
+                               @ModelAttribute("userForm") @Valid UserFormDTO userFormDTO,
                                BindingResult result, final RedirectAttributes ra) {
         if (result.hasErrors()) {
             return "registerPage";
         }
-        System.out.println(userForm);
+        System.out.println(userFormDTO);
         User newUser = null;
         try {
-            newUser = userService.createRegisterUser(userForm);
+            newUser = userService.createRegisterUser(userFormDTO);
             userService.setDefaultPermission(newUser);
             userService.save(newUser);
         }

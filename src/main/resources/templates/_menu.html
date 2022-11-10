@@ -6,7 +6,7 @@
             <ul style="display: flex;">
                 <li style="margin-right: 50px;"><a th:href="@{/}">Home</a></li>
                 <li sec:authorize="hasAnyAuthority('Admin')" style="margin-right: 50px;"><a th:href="@{/admin/users/page/1}">Account Manager</a></li>
-                <li sec:authorize="hasAnyAuthority('Admin', 'Manager')" style="margin-right: 50px;"><a th:href="@{/admin/products}">Product Manager</a></li>
+                <li sec:authorize="hasAnyAuthority('Admin', 'Manager')" style="margin-right: 50px;"><a th:href="@{/admin/products/page/1}">Product Manager</a></li>
                 <li sec:authorize="hasAnyAuthority('Admin', 'Manager', 'Employee')" style="margin-right: 50px;"><a th:href="@{/admin/orders}">Order Manager</a></li>
             </ul>
         </div>

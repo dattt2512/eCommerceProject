@@ -1,5 +1,6 @@
-package com.company.ecommerceproject.dto;
+package com.company.ecommerceproject.validator;
 
+import com.company.ecommerceproject.dto.UserFormDTO;
 import com.company.ecommerceproject.entities.User;
 import com.company.ecommerceproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,12 @@ public class UserFormValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return clazz == UserForm.class;
+        return clazz == UserFormDTO.class;
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        UserForm userForm = (UserForm) target;
+        UserFormDTO userFormDTO = (UserFormDTO) target;
 
         // Kiểm tra các field của userForm.
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty.UserForm.email");
@@ -33,33 +34,33 @@ public class UserFormValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "NotEmpty.UserForm.confirmPassword");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "gender", "NotEmpty.UserForm.gender");
 
-        if (!this.emailValidator.isValid(userForm.getEmail())) {
+        if (!this.emailValidator.isValid(userFormDTO.getEmail())) {
             errors.rejectValue("email", "Pattern.UserForm.email");
         }
 
-        if (!(2 < userForm.getEmail().length() && userForm.getEmail().length() < 45)) {
+        if (!(2 < userFormDTO.getEmail().length() && userFormDTO.getEmail().length() < 45)) {
             errors.rejectValue("email", "Size.UserForm.email");
         }
 
-        if (!(2 <= userForm.getFirstName().length() && userForm.getFirstName().length() <= 45)) {
+        if (!(2 <= userFormDTO.getFirstName().length() && userFormDTO.getFirstName().length() <= 45)) {
             errors.rejectValue("firstName", "Size.UserForm.firstName");
         }
 
-        if (!(2 <= userForm.getLastName().length() && userForm.getLastName().length() <= 45)) {
+        if (!(2 <= userFormDTO.getLastName().length() && userFormDTO.getLastName().length() <= 45)) {
             errors.rejectValue("lastName", "Size.UserForm.lastName");
         }
 
-        if (!(8 <= userForm.getPassword().length() && userForm.getPassword().length() <= 15)) {
+        if (!(8 <= userFormDTO.getPassword().length() && userFormDTO.getPassword().length() <= 15)) {
             errors.rejectValue("password", "Size.UserForm.password");
         }
 
-        User dbUser = userRepo.findByEmail(userForm.getEmail());
+        User dbUser = userRepo.findByEmail(userFormDTO.getEmail());
         if (dbUser != null) {
         // Email đã được sử dụng bởi tài khoản khác.
             errors.rejectValue("email", "Duplicate.UserForm.email");
         }
         if (!errors.hasErrors()) {
-            if (!userForm.getConfirmPassword().equals(userForm.getPassword())) {
+            if (!userFormDTO.getConfirmPassword().equals(userFormDTO.getPassword())) {
                 errors.rejectValue("confirmPassword", "Match.UserForm.confirmPassword");
             }
         }
