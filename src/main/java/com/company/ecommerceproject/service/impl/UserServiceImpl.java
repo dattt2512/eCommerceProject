@@ -1,9 +1,9 @@
 package com.company.ecommerceproject.service.impl;
 
 import com.company.ecommerceproject.config.AppConfig;
-import com.company.ecommerceproject.dto.UserForm;
+import com.company.ecommerceproject.dto.UserFormDTO;
 import com.company.ecommerceproject.exception.UserNotFoundException;
-import com.company.ecommerceproject.model.User;
+import com.company.ecommerceproject.entities.User;
 import com.company.ecommerceproject.repository.RoleRepository;
 import com.company.ecommerceproject.repository.UserRepository;
 import com.company.ecommerceproject.service.UserService;
@@ -11,10 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -53,14 +51,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createRegisterUser(UserForm userForm) {
-        String encyptedPassword = appConfig.passwordEncoder().encode(userForm.getPassword());
+    public User createRegisterUser(UserFormDTO userFormDTO) {
+        String encyptedPassword = appConfig.passwordEncoder().encode(userFormDTO.getPassword());
         User user = new User();
-        user.setEmail(userForm.getEmail());
-        user.setFirstName(userForm.getFirstName());
-        user.setLastName(userForm.getLastName());
+        user.setEmail(userFormDTO.getEmail());
+        user.setFirstName(userFormDTO.getFirstName());
+        user.setLastName(userFormDTO.getLastName());
         user.setEncryptedPassword(encyptedPassword);
-        user.setGender(userForm.getGender());
+        user.setGender(userFormDTO.getGender());
         return user;
     }
 

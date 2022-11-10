@@ -1,12 +1,11 @@
 package com.company.ecommerceproject.dto;
 
-import com.company.ecommerceproject.model.Gender;
-import com.company.ecommerceproject.model.Role;
+import com.company.ecommerceproject.entities.Gender;
+import com.company.ecommerceproject.entities.Role;
 import javax.validation.constraints.Size;
-import java.util.List;
 import java.util.Set;
 
-public class UserForm {
+public class UserFormDTO {
     private String email;
     private String firstName;
     private String lastName;
@@ -17,14 +16,14 @@ public class UserForm {
     private boolean enabled;
     private Set<Role> roles;
 
-    public UserForm() {
+    public UserFormDTO() {
 
     }
 
-    public UserForm(String email,
-                    String firstName, String lastName,
-                    String password, String confirmPassword,
-                    Gender gender, Set<Role> roles) {
+    public UserFormDTO(String email,
+                       String firstName, String lastName,
+                       String password, String confirmPassword,
+                       Gender gender, Set<Role> roles) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;

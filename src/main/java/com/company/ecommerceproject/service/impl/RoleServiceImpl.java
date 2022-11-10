@@ -1,6 +1,6 @@
 package com.company.ecommerceproject.service.impl;
 
-import com.company.ecommerceproject.model.Role;
+import com.company.ecommerceproject.entities.Role;
 import com.company.ecommerceproject.repository.RoleRepository;
 import com.company.ecommerceproject.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;

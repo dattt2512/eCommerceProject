@@ -2,15 +2,12 @@ package com.company.ecommerceproject.controller;
 
 import com.company.ecommerceproject.config.AppConfig;
 import com.company.ecommerceproject.exception.UserNotFoundException;
-import com.company.ecommerceproject.model.Role;
-import com.company.ecommerceproject.model.User;
+import com.company.ecommerceproject.entities.Role;
+import com.company.ecommerceproject.entities.User;
 import com.company.ecommerceproject.service.impl.RoleServiceImpl;
 import com.company.ecommerceproject.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,8 +1,8 @@
 package com.company.ecommerceproject;
 
-import com.company.ecommerceproject.model.Gender;
-import com.company.ecommerceproject.model.Role;
-import com.company.ecommerceproject.model.User;
+import com.company.ecommerceproject.entities.Gender;
+import com.company.ecommerceproject.entities.Role;
+import com.company.ecommerceproject.entities.User;
 import com.company.ecommerceproject.repository.RoleRepository;
 import com.company.ecommerceproject.repository.UserRepository;
 import com.company.ecommerceproject.service.impl.UserServiceImpl;

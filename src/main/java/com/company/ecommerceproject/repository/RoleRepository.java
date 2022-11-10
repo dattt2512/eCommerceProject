@@ -1,6 +1,6 @@
 package com.company.ecommerceproject.repository;
 
-import com.company.ecommerceproject.model.Role;
+import com.company.ecommerceproject.entities.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
