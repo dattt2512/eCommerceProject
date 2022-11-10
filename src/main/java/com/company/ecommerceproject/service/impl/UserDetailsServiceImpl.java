@@ -1,7 +1,7 @@
 package com.company.ecommerceproject.service.impl;
 
 import com.company.ecommerceproject.beans.MyUserDetails;
-import com.company.ecommerceproject.model.User;
+import com.company.ecommerceproject.entities.User;
 import com.company.ecommerceproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

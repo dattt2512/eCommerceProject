@@ -1,10 +1,9 @@
-package com.company.ecommerceproject.model;
+package com.company.ecommerceproject.entities;
 
 import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 @Table(name = "roles")

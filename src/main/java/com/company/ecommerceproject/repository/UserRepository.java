@@ -1,6 +1,6 @@
 package com.company.ecommerceproject.repository;
 
-import com.company.ecommerceproject.model.User;
+import com.company.ecommerceproject.entities.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

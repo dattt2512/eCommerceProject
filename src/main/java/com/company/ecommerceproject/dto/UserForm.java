@@ -1,9 +1,8 @@
 package com.company.ecommerceproject.dto;
 
-import com.company.ecommerceproject.model.Gender;
-import com.company.ecommerceproject.model.Role;
+import com.company.ecommerceproject.entities.Gender;
+import com.company.ecommerceproject.entities.Role;
 import javax.validation.constraints.Size;
-import java.util.List;
 import java.util.Set;
 
 public class UserForm {

@@ -1,6 +1,6 @@
 package com.company.ecommerceproject.service;
 
-import com.company.ecommerceproject.model.Role;
+import com.company.ecommerceproject.entities.Role;
 
 import java.util.List;
 

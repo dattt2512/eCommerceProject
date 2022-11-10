@@ -2,10 +2,8 @@ package com.company.ecommerceproject.service;
 
 import com.company.ecommerceproject.dto.UserForm;
 import com.company.ecommerceproject.exception.UserNotFoundException;
-import com.company.ecommerceproject.model.User;
+import com.company.ecommerceproject.entities.User;
 import org.springframework.data.domain.Page;
-
-import java.util.List;
 
 public interface UserService {
     public Page<User> listAll(int pageNum);
