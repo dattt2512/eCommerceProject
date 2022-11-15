@@ -62,8 +62,12 @@ public class ProductServiceImpl implements ProductService {
                 product.setImage(image);
             }
         }
-        Product product1 = productRepo.save(product);
-        return product1;
+        if (isNew) {
+            Product product1 = productRepo.save(product);
+            return product1;
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -82,5 +86,11 @@ public class ProductServiceImpl implements ProductService {
             throw new ProductNotFoundException("Could not find any Product with ID "+id);
         }
         productRepo.deleteById(id);
+    }
+
+    @Override
+    public Product findProduct(String code) {
+        Product product = productRepo.findByCode(code);
+        return product;
     }
 }

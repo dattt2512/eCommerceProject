@@ -54,7 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
 
-        http.authorizeRequests().antMatchers("/", "/login", "/logout", "/register").permitAll();
+        http.authorizeRequests().antMatchers("/", "/login", "/logout", "/register", "/shoppingCartConfirmation").permitAll();
 
         http.authorizeRequests().antMatchers("/admin/**").access("hasAnyAuthority('Admin', 'Manager', 'Employee')");
 
