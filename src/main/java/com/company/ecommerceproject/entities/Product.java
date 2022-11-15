@@ -27,7 +27,7 @@ public class Product {
     private byte[] image;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false)
+    @Column(nullable = false, name = "create_date")
     private Date createDate;
 
     @Column(nullable = false)
