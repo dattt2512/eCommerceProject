@@ -13,4 +13,6 @@ public interface ProductService {
     Product getProductById(Integer id) throws ProductNotFoundException;
 
     void delete(Integer id) throws ProductNotFoundException;
+
+    Product findProduct(String code);
 }

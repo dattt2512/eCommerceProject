@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>HomePage</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+</head>
+<body>
+<th:block th:include="/_menu"></th:block>
+
+<div class="container-fluid text-center">
+    <h1 style="text-decoration: underline">Order List</h1>
+<!--    <div th:if="${message}" th:text="${message}" class="alert alert-success text-center"></div>-->
+<!--    <div style="float: left">-->
+<!--        <h2>User Manager</h2>-->
+<!--        <a class="h3" th:href="@{/admin/users/new}">Add New User</a>-->
+<!--    </div>-->
+    <div>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th>Order Num</th>
+                <th>Order Date</th>
+                <th>Customer Name</th>
+                <th>Customer Address</th>
+                <th>Customer Email</th>
+                <th>Amount</th>
+                <th>View</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="orderInfo : ${ordersList}">
+                <tr>
+                    <td th:utext="${orderInfo.orderNum}"></td>
+                    <td th:utext="${#dates.format(orderInfo.orderDate,'dd-MM-yyyy HH:mm')}"></td>
+                    <td th:utext="${orderInfo.customerName}"></td>
+                    <td th:utext="${orderInfo.customerAddress}"></td>
+                    <td th:utext="${orderInfo.customerEmail}"></td>
+                    <td th:utext="${#numbers.formatDecimal(orderInfo.amount,3,2,'COMMA')}"></td>
+                    <td><a th:href="@{|/admin/order?orderId=${orderInfo.id}|}">View</a></td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+        <div style="margin-top: 20px">
+            Total Users: [[${totalOrders}]] - Pages [[${currentPage}]] of [[${totalPages}]] ---
+            <a th:if="${currentPage > 1}" th:href="@{'/admin/orderList/page/1'}">First</a>
+            <span th:unless="${currentPage > 1}">First</span>
+            <a th:if="${currentPage > 1}" th:href="@{'/admin/orderList/page/' + ${currentPage - 1}}">Previous</a>
+            <span th:unless="${currentPage > 1}">Previous</span>
+
+            <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+        <a th:if="${currentPage != i}"
+           th:href="@{'/admin/orderList/page/' + ${i}}">[[${i}]]</a>
+        <span th:unless="${currentPage != i}">[[${i}]]</span>
+        &nbsp;
+        </span>
+            <a th:if="${currentPage < totalPages}" th:href="@{'/admin/orderList/page/'+${currentPage + 1}}">Next</a>
+            <a th:unless="${currentPage < totalPages}">Next</a>
+            <a th:if="${currentPage < totalPages}" th:href="@{'/admin/orderList/page/'+${totalPages}}">Last</a>
+            <span th:unless="${currentPage < totalPages}">Last</span>
+        </div>
+    </div>
+</div>
+</body>
+</html>
