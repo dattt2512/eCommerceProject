@@ -26,7 +26,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<Product> listAll(int pageNum) {
-        int pageSize = 10;
+        int pageSize = 5;
 
         Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
         return productRepo.findAll(pageable);
