@@ -1,5 +1,6 @@
 package com.company.ecommerceproject.entities;
 
+import com.company.ecommerceproject.service.dto.BaseDTO;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -8,7 +9,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "order_details")
 @Data
-public class OrderDetails implements Serializable {
+public class OrderDetails extends BaseEnt implements Serializable {
     private static final long serialVersionUID = 7550745928843183535L;
 
     @Id
@@ -33,4 +34,9 @@ public class OrderDetails implements Serializable {
 
     @Column(name = "amount", nullable = false)
     private double amount;
+
+    @Override
+    public BaseDTO getAsDto() {
+        return null;
+    }
 }

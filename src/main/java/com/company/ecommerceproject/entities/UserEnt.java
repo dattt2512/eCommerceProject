@@ -1,10 +1,12 @@
 package com.company.ecommerceproject.entities;
 
+import com.company.ecommerceproject.service.dto.BaseDTO;
 import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,7 +14,7 @@ import java.util.Set;
 @Table(name = "users")
 @Data
 @ToString
-public class User implements Serializable {
+public class UserEnt extends BaseEnt implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
@@ -35,7 +37,8 @@ public class User implements Serializable {
     @Column(nullable = false)
     private boolean enabled;
 
-    private boolean deleted = false;
+    @Column(nullable = true)
+    private Date deletedDate;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -51,5 +54,10 @@ public class User implements Serializable {
 
     public boolean getEnabled() {
         return this.enabled;
+    }
+
+    @Override
+    public BaseDTO getAsDto() {
+        return null;
     }
 }

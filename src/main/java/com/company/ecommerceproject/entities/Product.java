@@ -1,14 +1,16 @@
 package com.company.ecommerceproject.entities;
 
+import com.company.ecommerceproject.service.dto.BaseDTO;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "products")
 @Data
-public class Product {
+public class Product extends BaseEnt implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -26,10 +28,14 @@ public class Product {
     @Column(length = Integer.MAX_VALUE, nullable = true)
     private byte[] image;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false, name = "create_date")
-    private Date createDate;
-
     @Column(nullable = false)
     private Integer quantity;
+
+    @Column(nullable = true)
+    private Date deletedDate;
+
+    @Override
+    public BaseDTO getAsDto() {
+        return null;
+    }
 }

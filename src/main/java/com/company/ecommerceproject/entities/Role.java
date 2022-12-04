@@ -1,5 +1,6 @@
 package com.company.ecommerceproject.entities;
 
+import com.company.ecommerceproject.service.dto.BaseDTO;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -8,7 +9,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "roles")
 @Data
-public class Role implements Serializable {
+public class Role extends BaseEnt implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -35,5 +36,10 @@ public class Role implements Serializable {
     @Override
     public String toString() {
         return this.name;
+    }
+
+    @Override
+    public BaseDTO getAsDto() {
+        return null;
     }
 }

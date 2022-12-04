@@ -26,7 +26,7 @@ public class ProductRepositoryTest {
         product.setCode("0003");
         product.setName("Srping Boot");
         product.setPrice(61.9);
-        product.setCreateDate(new Date());
+        product.setCreatedDate(new Date());
         product.setQuantity(1000);
 
         Product savedProduct = productRepo.save(product);
