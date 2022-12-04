@@ -1,6 +1,6 @@
 package com.company.ecommerceproject.models;
 
-import com.company.ecommerceproject.dto.CustomerForm;
+import com.company.ecommerceproject.service.dto.CustomerForm;
 
 public class CustomerInfo {
     private String name;

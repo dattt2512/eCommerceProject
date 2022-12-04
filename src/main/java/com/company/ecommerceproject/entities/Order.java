@@ -1,5 +1,6 @@
 package com.company.ecommerceproject.entities;
 
+import com.company.ecommerceproject.service.dto.BaseDTO;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -9,7 +10,7 @@ import java.util.Date;
 @Entity
 @Table(name = "orders", uniqueConstraints = {@UniqueConstraint(columnNames = "order_num")})
 @Data
-public class Order implements Serializable {
+public class Order extends BaseEnt implements Serializable {
 
     private static final long serialVersionUID = -2576670215015463100L;
 
@@ -37,4 +38,9 @@ public class Order implements Serializable {
 
     @Column(name = "customer_phone", length = 128, nullable = false)
     private String customerPhone;
+
+    @Override
+    public BaseDTO getAsDto() {
+        return null;
+    }
 }

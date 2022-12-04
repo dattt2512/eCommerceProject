@@ -1,9 +1,9 @@
 package com.company.ecommerceproject.controller;
 
 import com.company.ecommerceproject.config.AppConfig;
+import com.company.ecommerceproject.entities.UserEnt;
 import com.company.ecommerceproject.exception.UserNotFoundException;
 import com.company.ecommerceproject.entities.Role;
-import com.company.ecommerceproject.entities.User;
 import com.company.ecommerceproject.service.impl.RoleServiceImpl;
 import com.company.ecommerceproject.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,27 +30,32 @@ public class AdminController {
     RoleServiceImpl roleService;
 
     @GetMapping("/admin/users/page/{pageNum}")
-    public String adminPage(Model model, @PathVariable("pageNum") int pageNum, Principal principal) {
+    public List<UserEnt> adminPage(@PathVariable("pageNum") int pageNum, Principal principal) {
         String username = principal.getName();
         System.out.println("Username: " + username);
-        Page<User> page = userService.listAll(pageNum);
-        List<User> usersList = page.getContent();
+        Page<UserEnt> page = userService.listAll(pageNum);
+        List<UserEnt> usersList = page.getContent();
 
-        model.addAttribute("currentPage", pageNum);
-        model.addAttribute("totalPages", page.getTotalPages());
-        model.addAttribute("totalUsers", page.getTotalElements());
+//        model.addAttribute("currentPage", pageNum);
+//        model.addAttribute("totalPages", page.getTotalPages());
+//        model.addAttribute("totalUsers", page.getTotalElements());
 
 //        List<User> usersList = userService.listAll();
-        model.addAttribute("usersList", usersList);
-        return "users";
+//        model.addAttribute("usersList", usersList);
+        return usersList;
+    }
+
+    @GetMapping("/admin")
+    public List<UserEnt> listAll() {
+        return userService.listAll(1).getContent();
     }
 
     @GetMapping("/admin/users/new")
     public String showNewForm(Model model) {
-        User user = new User();
+        UserEnt userEnt = new UserEnt();
         List<Role> roleList = roleService.listAll();
         model.addAttribute("roleList", roleList);
-        model.addAttribute("user", user);
+        model.addAttribute("user", userEnt);
         model.addAttribute("pageTitle", "Add New User");
         return "user_form";
     }
@@ -58,10 +63,10 @@ public class AdminController {
     @GetMapping("/admin/users/edit/{id}")
     public String showEditForm(@PathVariable(name = "id") Integer id, Model model, RedirectAttributes ra) {
         try {
-            User user = userService.getUserById(id);
+            UserEnt userEnt = userService.getUserById(id);
             List<Role> roleList = roleService.listAll();
             model.addAttribute("roleList", roleList);
-            model.addAttribute("user", user);
+            model.addAttribute("user", userEnt);
             model.addAttribute("pageTitle", "Edit User (ID: " + id + ")");
             return "user_form";
         } catch (UserNotFoundException e) {
@@ -71,17 +76,17 @@ public class AdminController {
     }
 
     @PostMapping("/admin/users/save")
-    public String saveUser(User user, RedirectAttributes ra) {
+    public String saveUser(UserEnt userEnt, RedirectAttributes ra) {
         try {
-            User getUser = userService.getUserById(user.getUserId());
-            if (getUser.getEncryptedPassword().equals(user.getEncryptedPassword())) {
-                userService.save(user);
+            UserEnt getUserEnt = userService.getUserById(userEnt.getUserId());
+            if (getUserEnt.getEncryptedPassword().equals(userEnt.getEncryptedPassword())) {
+                userService.save(userEnt);
                 System.out.println("equals");
             } else {
-                String rawPass = user.getEncryptedPassword();
+                String rawPass = userEnt.getEncryptedPassword();
                 String encryptedPass = appConfig.passwordEncoder().encode(rawPass);
-                user.setEncryptedPassword(encryptedPass);
-                userService.save(user);
+                userEnt.setEncryptedPassword(encryptedPass);
+                userService.save(userEnt);
             }
         } catch (UserNotFoundException e) {
             throw new RuntimeException(e);

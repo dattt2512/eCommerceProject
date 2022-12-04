@@ -1,17 +1,13 @@
 package com.company.ecommerceproject.controller;
 
-import com.company.ecommerceproject.dto.CustomerForm;
-import com.company.ecommerceproject.dto.ProductFormDTO;
+import com.company.ecommerceproject.service.dto.CustomerForm;
+import com.company.ecommerceproject.service.dto.ProductFormDTO;
 import com.company.ecommerceproject.entities.Order;
 import com.company.ecommerceproject.entities.Product;
-import com.company.ecommerceproject.entities.Role;
-import com.company.ecommerceproject.entities.User;
 import com.company.ecommerceproject.exception.ProductNotFoundException;
-import com.company.ecommerceproject.exception.UserNotFoundException;
 import com.company.ecommerceproject.models.CartInfo;
 import com.company.ecommerceproject.models.CustomerInfo;
 import com.company.ecommerceproject.models.ProductInfo;
-import com.company.ecommerceproject.repository.OrderRepository;
 import com.company.ecommerceproject.service.OrderService;
 import com.company.ecommerceproject.service.impl.ProductServiceImpl;
 import com.company.ecommerceproject.ultis.CartUltis;

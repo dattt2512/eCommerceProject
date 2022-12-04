@@ -1,8 +1,7 @@
 package com.company.ecommerceproject.repository;
 
-import com.company.ecommerceproject.entities.User;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.company.ecommerceproject.entities.Role;
+import com.company.ecommerceproject.entities.UserEnt;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,19 +10,23 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 @Transactional
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<UserEnt, Integer>, UserRepositoryCustom {
 
     @Override
-    @Query("select u from User u where u.deleted = false")
-    Page<User> findAll(Pageable pageable);
+    @Query("select u from UserEnt u where u.deletedDate is null ")
+    Page<UserEnt> findAll(Pageable pageable);
 
-    @Query(value = "select u from User u where u.email = ?1")
-    User findByEmail(String email);
+    @Query(value = "select u from UserEnt u where u.email = ?1")
+    UserEnt findByEmail(String email);
 
     @Transactional
     @Modifying
-    @Query(value = "update users u set u.deleted = true where u.user_id = ?1", nativeQuery = true)
+    @Query(value = "update users u set u.deleted_date = GETDATE() where u.user_id = ?1", nativeQuery = true)
     void softDelete(Integer id);
+
+    void deleteByDeletedDateEquals(int id);
 }

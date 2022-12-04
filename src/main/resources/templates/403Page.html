@@ -13,9 +13,9 @@
 <div class="container-fluid text-center">
 
     <h4 th:if="${message != null}" th:utext="${message}" style="color: red;"></h4>
-    <div th:if="${loginedUser != null}" class="m-3 font-weight-bold">
-        <span th:utext="${loginedUser.email}"></span><br/>
-        Roles: <span th:utext="${loginedUser.roles}"></span>
+    <div th:if="${loginedUserEnt != null}" class="m-3 font-weight-bold">
+        <span th:utext="${loginedUserEnt.email}"></span><br/>
+        Roles: <span th:utext="${loginedUserEnt.roles}"></span>
     </div>
 </div>
 </body>
