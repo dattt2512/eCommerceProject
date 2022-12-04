@@ -1,6 +1,6 @@
 package com.company.ecommerceproject.validator;
 
-import com.company.ecommerceproject.dto.ProductFormDTO;
+import com.company.ecommerceproject.service.dto.ProductFormDTO;
 import com.company.ecommerceproject.entities.Product;
 import com.company.ecommerceproject.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;

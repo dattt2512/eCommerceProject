@@ -1,7 +1,7 @@
 package com.company.ecommerceproject.beans;
 
 import com.company.ecommerceproject.entities.Role;
-import com.company.ecommerceproject.entities.User;
+import com.company.ecommerceproject.entities.UserEnt;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,15 +9,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.*;
 
 public class MyUserDetails implements UserDetails {
-    private User user;
+    private UserEnt userEnt;
 
-    public MyUserDetails(User user) {
-        this.user = user;
+    public MyUserDetails(UserEnt userEnt) {
+        this.userEnt = userEnt;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<Role> roles = user.getRoles();
+        Set<Role> roles = userEnt.getRoles();
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
         for(Role role: roles) {
@@ -28,12 +28,12 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getEncryptedPassword();
+        return userEnt.getEncryptedPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return userEnt.getEmail();
     }
 
     @Override
@@ -53,10 +53,10 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return user.getEnabled();
+        return userEnt.getEnabled();
     }
 
-    public User getUser() {
-        return user;
+    public UserEnt getUser() {
+        return userEnt;
     }
 }

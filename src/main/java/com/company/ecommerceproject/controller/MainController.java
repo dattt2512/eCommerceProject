@@ -1,9 +1,9 @@
 package com.company.ecommerceproject.controller;
 
 import com.company.ecommerceproject.beans.MyUserDetails;
-import com.company.ecommerceproject.dto.UserFormDTO;
+import com.company.ecommerceproject.service.dto.UserFormDTO;
 import com.company.ecommerceproject.validator.UserFormValidator;
-import com.company.ecommerceproject.entities.User;
+import com.company.ecommerceproject.entities.UserEnt;
 import com.company.ecommerceproject.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,7 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.security.Principal;
 
-@Controller
+@RestController
 public class MainController {
     @Autowired
     private UserServiceImpl userService;
@@ -43,8 +43,8 @@ public class MainController {
         if (principal != null) {
             MyUserDetails loginedUserDetails = (MyUserDetails) SecurityContextHolder.getContext()
                     .getAuthentication().getPrincipal();
-            User loginedUser = loginedUserDetails.getUser();
-            model.addAttribute("loginedUser", loginedUser);
+            UserEnt loginedUserEnt = loginedUserDetails.getUser();
+            model.addAttribute("loginedUser", loginedUserEnt);
         }
         model.addAttribute("message", "WELCOME TO MY APPLICATION");
         return "index";
@@ -66,8 +66,8 @@ public class MainController {
 
         if (principal != null) {
             MyUserDetails loginedUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            User loginedUser = loginedUserDetails.getUser();
-            model.addAttribute("loginedUser", loginedUser);
+            UserEnt loginedUserEnt = loginedUserDetails.getUser();
+            model.addAttribute("loginedUser", loginedUserEnt);
 
             String message = "Hi " + principal.getName() //
                     + "<br> You do not have permission to access this page!";
@@ -92,18 +92,18 @@ public class MainController {
             return "registerPage";
         }
         System.out.println(userFormDTO);
-        User newUser = null;
+        UserEnt newUserEnt = null;
         try {
-            newUser = userService.createRegisterUser(userFormDTO);
-            userService.setDefaultPermission(newUser);
-            userService.save(newUser);
+            newUserEnt = userService.createRegisterUser(userFormDTO);
+            userService.setDefaultPermission(newUserEnt);
+            userService.save(newUserEnt);
         }
         // Other error!!
         catch (Exception e) {
             model.addAttribute("errorMessage", "Error: " + e.getMessage());
             return "registerPage";
         }
-        ra.addFlashAttribute("flashUser", newUser);
+        ra.addFlashAttribute("flashUser", newUserEnt);
         return "redirect:/registerSuccessful";
     }
 

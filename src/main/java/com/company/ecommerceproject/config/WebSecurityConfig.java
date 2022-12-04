@@ -1,32 +1,40 @@
 package com.company.ecommerceproject.config;
 
-import com.company.ecommerceproject.service.impl.UserDetailsServiceImpl;
+import com.company.ecommerceproject.config.jwt.JwtAuthenticationEntryPoint;
+import com.company.ecommerceproject.config.jwt.JwtTokenAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
-import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
     @Autowired
     private AppConfig appConfig;
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new UserDetailsServiceImpl();
-    }
+    @Autowired
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+    @Autowired
+    private JwtTokenAuthenticationFilter jwtTokenAuthenticationFilter;
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
@@ -37,42 +45,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return authProvider;
     }
 
-//    @Bean
-//    public PersistentTokenRepository persistentTokenRepository() {
-//        JdbcTokenRepositoryImpl db = new JdbcTokenRepositoryImpl();
-//        db.setDataSource(this.appConfig.dataSource());
-//        return db;
-//    }
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication().withUser("admin@gmail.com")
+                .password(appConfig.passwordEncoder().encode("admin@123")).roles("ADMIN");
 
-    @Bean
-    public PersistentTokenRepository persistentTokenRepository() {
-        InMemoryTokenRepositoryImpl imt = new InMemoryTokenRepositoryImpl();
-        return imt;
+        auth.userDetailsService(userDetailsService).passwordEncoder(appConfig.passwordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        http.cors().disable();
         http.csrf().disable();
 
-        http.authorizeRequests().antMatchers("/", "/login", "/logout", "/register", "/shoppingCartConfirmation").permitAll();
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and();
 
-        http.authorizeRequests().antMatchers("/admin/**").access("hasAnyAuthority('Admin', 'Manager', 'Employee')");
+        http.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint);
 
-        http.authorizeRequests().antMatchers("/admin/users/**").access("hasAnyAuthority('Admin')");
+        http.authorizeRequests()
+                .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/", "/login", "/logout", "/register", "/shoppingCartConfirmation").permitAll()
+                .antMatchers("/admin/users/**").hasRole("ADMIN")
+                .antMatchers("/admin/**").hasAnyRole("ADMIN", "MANAGER", "EMPLOYEE")
+                .anyRequest().authenticated();
 
-        http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
-
-        http.authorizeRequests().and().formLogin()
-                .loginPage("/login")
-                .loginProcessingUrl("/j_spring_security_check")
-                .defaultSuccessUrl("/")
-                .failureUrl("/login?error=true")
-                .usernameParameter("email")
-                .passwordParameter("password")
-                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutSuccessful");
-
-        http.authorizeRequests().and()
-                .rememberMe().tokenRepository(this.persistentTokenRepository())
-                .tokenValiditySeconds(1 * 4 * 60 * 60);
+        http.addFilterBefore(jwtTokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

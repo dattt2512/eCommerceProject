@@ -1,6 +1,6 @@
 package com.company.ecommerceproject.validator;
 
-import com.company.ecommerceproject.dto.CustomerForm;
+import com.company.ecommerceproject.service.dto.CustomerForm;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

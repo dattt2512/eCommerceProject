@@ -10,7 +10,7 @@
 <th:block th:include="/_menu"></th:block>
 <div class="container-fluid text-center">
     <h2 style="margin-bottom: 40px;"><span th:utext="${message}"></span></h2>
-    <h3 th:if="${#request.userPrincipal != null}">Hello <span style="color: coral;" th:utext="${loginedUser.email}"></span>!
+    <h3 th:if="${#request.userPrincipal != null}">Hello <span style="color: coral;" th:utext="${loginedUserEnt.email}"></span>!
     <br/>
         Have a nice day!!!
     </h3>

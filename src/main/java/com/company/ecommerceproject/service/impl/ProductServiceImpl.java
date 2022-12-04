@@ -1,10 +1,8 @@
 package com.company.ecommerceproject.service.impl;
 
-import com.company.ecommerceproject.dto.ProductFormDTO;
+import com.company.ecommerceproject.service.dto.ProductFormDTO;
 import com.company.ecommerceproject.entities.Product;
-import com.company.ecommerceproject.entities.User;
 import com.company.ecommerceproject.exception.ProductNotFoundException;
-import com.company.ecommerceproject.exception.UserNotFoundException;
 import com.company.ecommerceproject.repository.ProductRepository;
 import com.company.ecommerceproject.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +43,7 @@ public class ProductServiceImpl implements ProductService {
         if (product == null) {
             isNew = true;
             product = new Product();
-            product.setCreateDate(new Date());
+            product.setCreatedDate(new Date());
         }
         product.setCode(code);
         product.setName(productFormDTO.getName());

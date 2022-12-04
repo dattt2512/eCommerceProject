@@ -1,9 +1,9 @@
 package com.company.ecommerceproject.controller;
 
 import com.company.ecommerceproject.config.AppConfig;
+import com.company.ecommerceproject.entities.UserEnt;
 import com.company.ecommerceproject.exception.UserNotFoundException;
 import com.company.ecommerceproject.entities.Role;
-import com.company.ecommerceproject.entities.User;
 import com.company.ecommerceproject.service.impl.RoleServiceImpl;
 import com.company.ecommerceproject.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +13,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.List;
 
-@Controller
+@RestController
 public class AdminController {
     @Autowired
     UserServiceImpl userService;
@@ -33,8 +34,8 @@ public class AdminController {
     public String adminPage(Model model, @PathVariable("pageNum") int pageNum, Principal principal) {
         String username = principal.getName();
         System.out.println("Username: " + username);
-        Page<User> page = userService.listAll(pageNum);
-        List<User> usersList = page.getContent();
+        Page<UserEnt> page = userService.listAll(pageNum);
+        List<UserEnt> usersList = page.getContent();
 
         model.addAttribute("currentPage", pageNum);
         model.addAttribute("totalPages", page.getTotalPages());
@@ -47,18 +48,18 @@ public class AdminController {
 
     @GetMapping("/admin/users/new")
     public String showNewForm(Model model) {
-        User user = new User();
-        List<Role> roleList = roleService.listAll();
-        model.addAttribute("roleList", roleList);
-        model.addAttribute("user", user);
-        model.addAttribute("pageTitle", "Add New User");
+//        UserEnt user = new UserEnt();
+//        List<Role> roleList = roleService.listAll();
+//        model.addAttribute("roleList", roleList);
+//        model.addAttribute("user", user);
+//        model.addAttribute("pageTitle", "Add New User");
         return "user_form";
     }
 
     @GetMapping("/admin/users/edit/{id}")
     public String showEditForm(@PathVariable(name = "id") Integer id, Model model, RedirectAttributes ra) {
         try {
-            User user = userService.getUserById(id);
+            UserEnt user = userService.getUserById(id);
             List<Role> roleList = roleService.listAll();
             model.addAttribute("roleList", roleList);
             model.addAttribute("user", user);
@@ -71,9 +72,9 @@ public class AdminController {
     }
 
     @PostMapping("/admin/users/save")
-    public String saveUser(User user, RedirectAttributes ra) {
+    public String saveUser(UserEnt user, RedirectAttributes ra) {
         try {
-            User getUser = userService.getUserById(user.getUserId());
+            UserEnt getUser = userService.getUserById(user.getUserId());
             if (getUser.getEncryptedPassword().equals(user.getEncryptedPassword())) {
                 userService.save(user);
                 System.out.println("equals");

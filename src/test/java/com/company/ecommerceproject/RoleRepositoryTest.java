@@ -24,7 +24,7 @@ public class RoleRepositoryTest {
         Role editor = new Role("Editor");
         Role user = new Role("User");
 
-        roleRepo.saveAll(List.of(admin, editor, user));
+//        roleRepo.saveAll(List.of(admin, editor, user));
 
         List<Role> roleList = roleRepo.findAll();
 

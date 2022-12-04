@@ -1,7 +1,7 @@
 package com.company.ecommerceproject.validator;
 
-import com.company.ecommerceproject.dto.UserFormDTO;
-import com.company.ecommerceproject.entities.User;
+import com.company.ecommerceproject.service.dto.UserFormDTO;
+import com.company.ecommerceproject.entities.UserEnt;
 import com.company.ecommerceproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -54,8 +54,8 @@ public class UserFormValidator implements Validator {
             errors.rejectValue("password", "Size.UserForm.password");
         }
 
-        User dbUser = userRepo.findByEmail(userFormDTO.getEmail());
-        if (dbUser != null) {
+        UserEnt dbUserEnt = userRepo.findByEmail(userFormDTO.getEmail());
+        if (dbUserEnt != null) {
         // Email đã được sử dụng bởi tài khoản khác.
             errors.rejectValue("email", "Duplicate.UserForm.email");
         }

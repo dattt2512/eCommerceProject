@@ -1,6 +1,6 @@
 package com.company.ecommerceproject.service;
 
-import com.company.ecommerceproject.dto.ProductFormDTO;
+import com.company.ecommerceproject.service.dto.ProductFormDTO;
 import com.company.ecommerceproject.entities.Product;
 import com.company.ecommerceproject.exception.ProductNotFoundException;
 import org.springframework.data.domain.Page;

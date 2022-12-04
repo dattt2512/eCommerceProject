@@ -1,10 +1,8 @@
 package com.company.ecommerceproject.controller;
 
 import com.company.ecommerceproject.entities.Order;
-import com.company.ecommerceproject.entities.User;
 import com.company.ecommerceproject.models.OrderDetailInfo;
 import com.company.ecommerceproject.models.OrderInfo;
-import com.company.ecommerceproject.service.OrderService;
 import com.company.ecommerceproject.service.impl.OrderServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

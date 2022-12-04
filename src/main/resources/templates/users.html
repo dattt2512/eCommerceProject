@@ -30,18 +30,18 @@
                 </tr>
             </thead>
             <tbody>
-                <th:block th:each="user : ${usersList}">
+                <th:block th:each="userEnt : ${usersList}">
                     <tr>
-                        <td th:utext="${user.userId}"></td>
-                        <td th:utext="${user.email}"></td>
-                        <td th:utext="${user.firstName}"></td>
-                        <td th:utext="${user.lastName}"></td>
-                        <td th:utext="${user.gender}"></td>
-                        <td th:utext="${user.roles}"></td>
-                        <td th:utext="${user.enabled}"></td>
+                        <td th:utext="${userEnt.userId}"></td>
+                        <td th:utext="${userEnt.email}"></td>
+                        <td th:utext="${userEnt.firstName}"></td>
+                        <td th:utext="${userEnt.lastName}"></td>
+                        <td th:utext="${userEnt.gender}"></td>
+                        <td th:utext="${userEnt.roles}"></td>
+                        <td th:utext="${userEnt.enabled}"></td>
                         <td>
-                            <a class="h4 m-2" th:href="@{'/admin/users/edit/' + ${user.userId}}">Edit</a>
-                            <a class="h4 m-2" th:href="@{'/admin/users/delete/' + ${user.userId}}">Delete</a>
+                            <a class="h4 m-2" th:href="@{'/admin/users/edit/' + ${userEnt.userId}}">Edit</a>
+                            <a class="h4 m-2" th:href="@{'/admin/users/delete/' + ${userEnt.userId}}">Delete</a>
                         </td>
                     </tr>
                 </th:block>

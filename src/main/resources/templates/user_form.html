@@ -9,7 +9,7 @@
 <body>
 <div class="container-fluid">
     <h1 class="text-center" th:utext="${pageTitle}"></h1>
-    <form th:action="@{/admin/users/save}" method="post" th:object="${user}"
+    <form th:action="@{/admin/users/save}" method="post" th:object="${userEnt}"
           style="max-width: 500px; margin: 0 auto;">
         <input type="hidden" th:field="*{userId}">
         <div class="border border-secondary rounded p-3">

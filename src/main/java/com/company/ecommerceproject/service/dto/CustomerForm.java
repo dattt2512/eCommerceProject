@@ -1,4 +1,4 @@
-package com.company.ecommerceproject.dto;
+package com.company.ecommerceproject.service.dto;
 
 import com.company.ecommerceproject.models.CustomerInfo;
 
