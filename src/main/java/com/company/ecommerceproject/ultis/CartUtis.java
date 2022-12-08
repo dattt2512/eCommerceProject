@@ -4,7 +4,7 @@ import com.company.ecommerceproject.models.CartInfo;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class CartUltis {
+public class CartUtis {
 
     // Thông tin các sản phẩm trong giỏ hàng, được lưu trữ trong Session.
     public static CartInfo getCartInSession(HttpServletRequest request) {

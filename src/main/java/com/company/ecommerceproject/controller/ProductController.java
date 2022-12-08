@@ -10,7 +10,7 @@ import com.company.ecommerceproject.models.CustomerInfo;
 import com.company.ecommerceproject.models.ProductInfo;
 import com.company.ecommerceproject.service.OrderService;
 import com.company.ecommerceproject.service.impl.ProductServiceImpl;
-import com.company.ecommerceproject.ultis.CartUltis;
+import com.company.ecommerceproject.ultis.CartUtis;
 import com.company.ecommerceproject.validator.ProductFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -158,7 +158,7 @@ public class ProductController {
         if (product != null) {
 
             //
-            CartInfo cartInfo = CartUltis.getCartInSession(request);
+            CartInfo cartInfo = CartUtis.getCartInSession(request);
 
             ProductInfo productInfo = new ProductInfo(product);
 
@@ -178,7 +178,7 @@ public class ProductController {
         }
         if (product != null) {
 
-            CartInfo cartInfo = CartUltis.getCartInSession(request);
+            CartInfo cartInfo = CartUtis.getCartInSession(request);
 
             ProductInfo productInfo = new ProductInfo(product);
 
@@ -195,7 +195,7 @@ public class ProductController {
                                         Model model, //
                                         @ModelAttribute("cartForm") CartInfo cartForm) {
 
-        CartInfo cartInfo = CartUltis.getCartInSession(request);
+        CartInfo cartInfo = CartUtis.getCartInSession(request);
         cartInfo.updateQuantity(cartForm);
 
         return "redirect:/shoppingCart";
@@ -204,7 +204,7 @@ public class ProductController {
     // Show shopping cart
     @GetMapping("/shoppingCart")
     public String shoppingCartHandler(HttpServletRequest request, Model model) {
-        CartInfo myCart = CartUltis.getCartInSession(request);
+        CartInfo myCart = CartUtis.getCartInSession(request);
 
         model.addAttribute("cartForm", myCart);
         return "shoppingCart";
@@ -214,7 +214,7 @@ public class ProductController {
     @GetMapping("/shoppingCartCustomer")
     public String shoppingCartCustomerForm(HttpServletRequest request, Model model) {
 
-        CartInfo cartInfo = CartUltis.getCartInSession(request);
+        CartInfo cartInfo = CartUtis.getCartInSession(request);
 
         if (cartInfo.isEmpty()) {
 
@@ -244,7 +244,7 @@ public class ProductController {
         }
 
         customerForm.setValid(true);
-        CartInfo cartInfo = CartUltis.getCartInSession(request);
+        CartInfo cartInfo = CartUtis.getCartInSession(request);
         CustomerInfo customerInfo = new CustomerInfo(customerForm);
         cartInfo.setCustomerInfo(customerInfo);
 
@@ -254,7 +254,7 @@ public class ProductController {
     //shopping Cart Confirmation Review
     @GetMapping("/shoppingCartConfirmation")
     public String shoppingCartConfirmationReview(HttpServletRequest request, Model model) {
-        CartInfo cartInfo = CartUltis.getCartInSession(request);
+        CartInfo cartInfo = CartUtis.getCartInSession(request);
 
         if (cartInfo == null || cartInfo.isEmpty()) {
 
@@ -291,10 +291,10 @@ public class ProductController {
         }
 
         // Xóa giỏ hàng khỏi session.
-        CartUltis.removeCartInSession(request);
+        CartUtis.removeCartInSession(request);
 
         // Lưu thông tin đơn hàng cuối đã xác nhận mua.
-        CartUltis.storeLastOrderedCartInSession(request, cartInfo);
+        CartUtis.storeLastOrderedCartInSession(request, cartInfo);
 
         return "redirect:/shoppingCartFinalize";
     }
@@ -303,7 +303,7 @@ public class ProductController {
     @RequestMapping(value = {"/shoppingCartFinalize"}, method = RequestMethod.GET)
     public String shoppingCartFinalize(HttpServletRequest request, Model model) {
 
-        CartInfo lastOrderedCart = CartUltis.getLastOrderedCartInSession(request);
+        CartInfo lastOrderedCart = CartUtis.getLastOrderedCartInSession(request);
 
         if (lastOrderedCart == null) {
             return "redirect:/shoppingCart";

@@ -4,9 +4,8 @@ import com.company.ecommerceproject.entities.Role;
 import com.company.ecommerceproject.entities.UserEnt;
 import com.company.ecommerceproject.repository.RoleRepository;
 import com.company.ecommerceproject.repository.UserRepository;
+import com.company.ecommerceproject.ultis.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +19,9 @@ import java.util.List;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private static final String ROLE_PREFIX = "ROLE_";
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
     @Autowired
     private UserRepository userRepo;
 
@@ -35,9 +36,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("Could not find any User with email: "+email);
         } else {
             List<Role> roles = roleRepo.findRolesByEmail(email);
-            List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+            List<SimpleGrantedAuthority> grantedAuthorities = new ArrayList<>();
             for (Role role: roles) {
-                grantedAuthorities.add(new SimpleGrantedAuthority(ROLE_PREFIX + role.getName()));
+                grantedAuthorities.add(new SimpleGrantedAuthority(jwtTokenUtil.getRolePrefix() + role.getName()));
             }
             return new User(userEnt.getEmail(), userEnt.getEncryptedPassword(), grantedAuthorities);
         }
