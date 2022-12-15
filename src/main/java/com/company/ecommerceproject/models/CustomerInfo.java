@@ -1,6 +1,6 @@
 package com.company.ecommerceproject.models;
 
-import com.company.ecommerceproject.service.dto.CustomerForm;
+import com.company.ecommerceproject.dto.response.CustomerDTO;
 
 public class CustomerInfo {
     private String name;
@@ -14,12 +14,12 @@ public class CustomerInfo {
 
     }
 
-    public CustomerInfo(CustomerForm customerForm) {
-        this.name = customerForm.getName();
-        this.address = customerForm.getAddress();
-        this.email = customerForm.getEmail();
-        this.phone = customerForm.getPhone();
-        this.valid = customerForm.isValid();
+    public CustomerInfo(CustomerDTO customerDTO) {
+        this.name = customerDTO.getName();
+        this.address = customerDTO.getAddress();
+        this.email = customerDTO.getEmail();
+        this.phone = customerDTO.getPhone();
+        this.valid = customerDTO.isValid();
     }
 
     public String getName() {

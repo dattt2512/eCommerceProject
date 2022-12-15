@@ -1,10 +1,19 @@
 package com.company.ecommerceproject.service.impl;
 
-import com.company.ecommerceproject.service.dto.ProductFormDTO;
+import com.company.ecommerceproject.dto.response.ProductDTO;
+import com.company.ecommerceproject.dto.response.ProductFormDTO;
+import com.company.ecommerceproject.dto.response.UserDTO;
 import com.company.ecommerceproject.entities.Product;
+import com.company.ecommerceproject.entities.Role;
+import com.company.ecommerceproject.entities.UserEnt;
 import com.company.ecommerceproject.exception.ProductNotFoundException;
+import com.company.ecommerceproject.mapper.BaseMapper;
 import com.company.ecommerceproject.repository.ProductRepository;
 import com.company.ecommerceproject.service.ProductService;
+import com.company.ecommerceproject.ultis.DataUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,65 +23,48 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
+@Slf4j
 public class ProductServiceImpl implements ProductService {
+
+    private static final BaseMapper<Product, ProductDTO> mapper = new BaseMapper<>(Product.class, ProductDTO.class);
+    private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+
     @Autowired
     private ProductRepository productRepo;
 
     @Override
-    public Page<Product> listAll(int pageNum) {
-        int pageSize = 5;
-
-        Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
-        return productRepo.findAll(pageable);
+    public List<ProductDTO> listAll() {
+        return mapper.toDtoBean(productRepo.findAll());
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
-    public Product save(ProductFormDTO productFormDTO) {
-        String code = productFormDTO.getCode();
-        Product product = null;
-        boolean isNew = false;
+    public ProductDTO save(ProductDTO productDTO) {
 
-        if (code != null) {
-            product = productRepo.findProduct(code);
-        }
-        if (product == null) {
-            isNew = true;
-            product = new Product();
-            product.setCreatedDate(new Date());
-        }
-        product.setCode(code);
-        product.setName(productFormDTO.getName());
-        product.setPrice(productFormDTO.getPrice());
-        product.setQuantity(productFormDTO.getQuantity());
-
-        if (productFormDTO.getFileData() != null) {
+        Product product;
+        product = mapper.toPersistenceBean(productDTO);
+        if (productDTO.getFileData() != null) {
             byte[] image = null;
             try {
-                image = productFormDTO.getFileData().getBytes();
+                image = productDTO.getFileData().getBytes();
             } catch (IOException e) {
             }
             if (image != null && image.length > 0) {
                 product.setImage(image);
             }
         }
-        if (isNew) {
-            Product product1 = productRepo.save(product);
-            return product1;
-        } else {
-            return null;
-        }
+        return mapper.toDtoBean(productRepo.save(product));
     }
 
     @Override
-    public Product getProductById(Integer id) throws ProductNotFoundException {
+    public ProductDTO getProductById(Integer id) throws ProductNotFoundException {
         Optional<Product> products = productRepo.findById(id);
         if (products.isPresent()) {
-            return products.get();
+            return mapper.toDtoBean(products.get());
         }
         throw new ProductNotFoundException("Could not find any Product with Id: "+id);
     }
@@ -83,11 +75,11 @@ public class ProductServiceImpl implements ProductService {
         if (!products.isPresent()) {
             throw new ProductNotFoundException("Could not find any Product with ID "+id);
         }
-        productRepo.deleteById(id);
+        productRepo.delete(id);
     }
 
     @Override
-    public Product findProduct(String code) {
+    public Product findProductByCode(String code) {
         Product product = productRepo.findByCode(code);
         return product;
     }

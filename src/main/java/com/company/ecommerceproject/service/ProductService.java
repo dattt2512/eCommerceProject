@@ -1,18 +1,21 @@
 package com.company.ecommerceproject.service;
 
-import com.company.ecommerceproject.service.dto.ProductFormDTO;
+import com.company.ecommerceproject.dto.response.ProductDTO;
+import com.company.ecommerceproject.dto.response.ProductFormDTO;
 import com.company.ecommerceproject.entities.Product;
 import com.company.ecommerceproject.exception.ProductNotFoundException;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
+
 public interface ProductService {
-    Page<Product> listAll(int pageNum);
+    List<ProductDTO> listAll();
 
-    Product save(ProductFormDTO productFormDTO);
+    ProductDTO save(ProductDTO productDTO);
 
-    Product getProductById(Integer id) throws ProductNotFoundException;
+    ProductDTO getProductById(Integer id) throws ProductNotFoundException;
 
     void delete(Integer id) throws ProductNotFoundException;
 
-    Product findProduct(String code);
+    Product findProductByCode(String code);
 }

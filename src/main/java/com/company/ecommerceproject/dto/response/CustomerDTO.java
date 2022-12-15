@@ -1,8 +1,8 @@
-package com.company.ecommerceproject.service.dto;
+package com.company.ecommerceproject.dto.response;
 
 import com.company.ecommerceproject.models.CustomerInfo;
 
-public class CustomerForm {
+public class CustomerDTO {
     private String name;
     private String address;
     private String email;
@@ -10,11 +10,11 @@ public class CustomerForm {
 
     private boolean valid;
 
-    public CustomerForm() {
+    public CustomerDTO() {
 
     }
 
-    public CustomerForm(CustomerInfo customerInfo) {
+    public CustomerDTO(CustomerInfo customerInfo) {
         if (customerInfo != null) {
             this.name = customerInfo.getName();
             this.address = customerInfo.getAddress();

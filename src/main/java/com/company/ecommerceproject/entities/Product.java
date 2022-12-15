@@ -1,11 +1,10 @@
 package com.company.ecommerceproject.entities;
 
-import com.company.ecommerceproject.service.dto.BaseDTO;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "products")
@@ -32,10 +31,5 @@ public class Product extends BaseEnt implements Serializable {
     private Integer quantity;
 
     @Column(nullable = true)
-    private Date deletedDate;
-
-    @Override
-    public BaseDTO getAsDto() {
-        return null;
-    }
+    private LocalDateTime deletedDate;
 }

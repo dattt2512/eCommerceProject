@@ -1,4 +1,4 @@
-package com.company.ecommerceproject.service.dto;
+package com.company.ecommerceproject.dto.response;
 
 import com.company.ecommerceproject.entities.Product;
 import org.springframework.web.multipart.MultipartFile;

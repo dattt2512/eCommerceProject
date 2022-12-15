@@ -23,7 +23,7 @@ public class OrderInfo {
     // Sử dụng cho Hibernate Query.
     public OrderInfo(String id, Date orderDate, int orderNum, //
                      double amount, String customerName, String customerAddress, //
-                     String customerEmail, String customerPhone) {
+                     String customerEmail, String customerPhone, List<OrderDetailInfo> details) {
         this.id = id;
         this.orderDate = orderDate;
         this.orderNum = orderNum;
@@ -33,6 +33,7 @@ public class OrderInfo {
         this.customerAddress = customerAddress;
         this.customerEmail = customerEmail;
         this.customerPhone = customerPhone;
+        this.details = details;
     }
 
     public String getId() {

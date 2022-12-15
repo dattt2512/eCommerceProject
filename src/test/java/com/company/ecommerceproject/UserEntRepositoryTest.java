@@ -13,9 +13,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -44,7 +42,7 @@ public class UserEntRepositoryTest {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String encryptPassword = bCryptPasswordEncoder.encode("123456");
 
-        userEnt.setEncryptedPassword(encryptPassword);
+        userEnt.setPassword(encryptPassword);
         userEnt.setEnabled(true);
 
         userRepo.save(userEnt);
@@ -98,9 +96,9 @@ public class UserEntRepositoryTest {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String encryptPassword = bCryptPasswordEncoder.encode("686868");
 
-        userEnt.setEncryptedPassword(encryptPassword);
+        userEnt.setPassword(encryptPassword);
         userEnt.setEnabled(true);
-        userEnt.addRole(roleAdmin);
+        userEnt.setRoles((Set<Role>) roleAdmin);
 
         UserEnt savedUserEnt = userRepo.save(userEnt);
 
@@ -113,7 +111,11 @@ public class UserEntRepositoryTest {
         Role roleUser = roleRepo.findByName("User");
         Role roleAdmin = new Role(1);
 
-        userEnt.addRole(roleUser);
+        Set<Role> roles = new HashSet<>();
+        roles.add(roleAdmin);
+        roles.add(roleUser);
+
+        userEnt.setRoles(roles);
         userEnt.addRole(roleAdmin);
 
         UserEnt savedUserEnt = userRepo.save(userEnt);

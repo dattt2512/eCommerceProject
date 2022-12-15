@@ -1,23 +1,19 @@
 package com.company.ecommerceproject.controller;
 
-import com.company.ecommerceproject.beans.MyUserDetails;
-import com.company.ecommerceproject.service.dto.UserFormDTO;
+import com.company.ecommerceproject.dto.response.UserDTO;
 import com.company.ecommerceproject.validator.UserFormValidator;
-import com.company.ecommerceproject.entities.UserEnt;
 import com.company.ecommerceproject.service.impl.UserServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import javax.validation.Valid;
-import java.security.Principal;
 
 @RestController
+@Slf4j
+@RequestMapping("api")
 public class MainController {
     @Autowired
     private UserServiceImpl userService;
@@ -33,83 +29,18 @@ public class MainController {
         }
         System.out.println("Target: " + target);
 
-        if (target.getClass() == UserFormDTO.class) {
+        if (target.getClass() == UserDTO.class) {
             dataBinder.setValidator(userFormValidator);
         }
     }
 
-    @GetMapping
-    public String homePage(Model model, Principal principal) {
-        if (principal != null) {
-            MyUserDetails loginedUserDetails = (MyUserDetails) SecurityContextHolder.getContext()
-                    .getAuthentication().getPrincipal();
-            UserEnt loginedUserEnt = loginedUserDetails.getUser();
-            model.addAttribute("loginedUser", loginedUserEnt);
-        }
-        model.addAttribute("message", "WELCOME TO MY APPLICATION");
-        return "index";
-    }
-
-    @GetMapping("/login")
-    public String loginPage() {
-        return "loginPage";
+    @PostMapping("/register")
+    public UserDTO saveRegisterUser(@RequestBody @Validated UserDTO userDTO) {
+        return userService.save(userDTO);
     }
 
     @GetMapping("/logoutSuccessful")
-    public String logoutSuccessfulPage(Model model) {
-        model.addAttribute("title", "Logout");
-        return "logoutSuccessfulPage";
+    public ResponseEntity<?> logoutSuccessful() {
+        return new ResponseEntity("Logout successfully", HttpStatus.OK);
     }
-
-    @GetMapping("/403")
-    public String accessDenied(Model model, Principal principal) {
-
-        if (principal != null) {
-            MyUserDetails loginedUserDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            UserEnt loginedUserEnt = loginedUserDetails.getUser();
-            model.addAttribute("loginedUser", loginedUserEnt);
-
-            String message = "Hi " + principal.getName() //
-                    + "<br> You do not have permission to access this page!";
-            model.addAttribute("message", message);
-        }
-
-        return "403Page";
-    }
-
-    @GetMapping("/register")
-    public String showRegister(Model model) {
-        UserFormDTO userFormDTO = new UserFormDTO();
-        model.addAttribute("userForm", userFormDTO);
-        return "registerPage";
-    }
-
-    @PostMapping("/register")
-    public String saveRegister(Model model,
-                               @ModelAttribute("userForm") @Valid UserFormDTO userFormDTO,
-                               BindingResult result, final RedirectAttributes ra) {
-        if (result.hasErrors()) {
-            return "registerPage";
-        }
-        System.out.println(userFormDTO);
-        UserEnt newUserEnt = null;
-        try {
-            newUserEnt = userService.createRegisterUser(userFormDTO);
-            userService.setDefaultPermission(newUserEnt);
-            userService.save(newUserEnt);
-        }
-        // Other error!!
-        catch (Exception e) {
-            model.addAttribute("errorMessage", "Error: " + e.getMessage());
-            return "registerPage";
-        }
-        ra.addFlashAttribute("flashUser", newUserEnt);
-        return "redirect:/registerSuccessful";
-    }
-
-    @GetMapping("/registerSuccessful")
-    public String showRegisterSuccesssfulPage() {
-        return "registerSuccessful";
-    }
-
 }

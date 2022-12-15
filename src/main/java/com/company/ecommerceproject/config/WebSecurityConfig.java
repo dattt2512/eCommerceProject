@@ -64,11 +64,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint);
 
         http.authorizeRequests()
+                .antMatchers("/api/admin/users/**").hasRole("ADMIN")
+                .antMatchers("/api/admin/**").hasAnyRole("ADMIN", "MANAGER", "EMPLOYEE")
                 .antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/", "/login", "/logout", "/register", "/shoppingCartConfirmation").permitAll()
-                .antMatchers("/admin/users/**").hasRole("ADMIN")
-                .antMatchers("/admin/**").hasAnyRole("ADMIN", "MANAGER", "EMPLOYEE")
+                .antMatchers("/api/**", "/shoppingCartConfirmation").permitAll()
                 .anyRequest().authenticated();
+
+        http.logout().logoutUrl("/api/logout").logoutSuccessUrl("/api/logoutSuccessful");
 
         http.addFilterBefore(jwtTokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }

@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 @Transactional
 public interface RoleRepository extends JpaRepository<Role, Integer> {
-    @Query(value = "select r from Role r where r.name = ?1")
+//    @Query(value = "select r from Role r where r.name = ?1")
     Role findByName(String name);
 
     @Query(value = "select r.* from roles r \n" +

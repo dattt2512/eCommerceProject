@@ -1,6 +1,5 @@
 package com.company.ecommerceproject.entities;
 
-import com.company.ecommerceproject.service.dto.BaseDTO;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -38,9 +37,4 @@ public class Order extends BaseEnt implements Serializable {
 
     @Column(name = "customer_phone", length = 128, nullable = false)
     private String customerPhone;
-
-    @Override
-    public BaseDTO getAsDto() {
-        return null;
-    }
 }

@@ -1,12 +1,11 @@
 package com.company.ecommerceproject.entities;
 
-import com.company.ecommerceproject.service.dto.BaseDTO;
 import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,7 +28,7 @@ public class UserEnt extends BaseEnt implements Serializable {
     private String lastName;
 
     @Column(name = "password", nullable = false)
-    private String encryptedPassword;
+    private String password;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -38,7 +37,7 @@ public class UserEnt extends BaseEnt implements Serializable {
     private boolean enabled;
 
     @Column(nullable = true)
-    private Date deletedDate;
+    private LocalDateTime deletedDate;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -48,16 +47,7 @@ public class UserEnt extends BaseEnt implements Serializable {
     )
     private Set<Role> roles = new HashSet<>();
 
-    public void addRole(Role role) {
-        this.roles.add(role);
-    }
-
     public boolean getEnabled() {
         return this.enabled;
-    }
-
-    @Override
-    public BaseDTO getAsDto() {
-        return null;
     }
 }
