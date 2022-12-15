@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface OrderService {
 
-    Page<Order> listAll(int pageNum);
+    List<Order> listAll();
 
     public Order saveOrder(CartInfo cartInfo);
 

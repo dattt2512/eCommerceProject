@@ -1,6 +1,5 @@
 package com.company.ecommerceproject.entities;
 
-import com.company.ecommerceproject.service.dto.BaseDTO;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -36,10 +35,5 @@ public class Role extends BaseEnt implements Serializable {
     @Override
     public String toString() {
         return this.name;
-    }
-
-    @Override
-    public BaseDTO getAsDto() {
-        return null;
     }
 }

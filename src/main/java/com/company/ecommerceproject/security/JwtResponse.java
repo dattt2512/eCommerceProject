@@ -1,4 +1,4 @@
-package com.company.ecommerceproject.dto.response;
+package com.company.ecommerceproject.security;
 
 import java.io.Serializable;
 

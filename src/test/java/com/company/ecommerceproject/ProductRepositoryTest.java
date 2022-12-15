@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 
@@ -26,7 +27,7 @@ public class ProductRepositoryTest {
         product.setCode("0003");
         product.setName("Srping Boot");
         product.setPrice(61.9);
-        product.setCreatedDate(new Date());
+        product.setCreatedDate(LocalDateTime.now());
         product.setQuantity(1000);
 
         Product savedProduct = productRepo.save(product);

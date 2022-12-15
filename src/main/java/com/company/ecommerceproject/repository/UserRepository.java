@@ -28,5 +28,6 @@ public interface UserRepository extends JpaRepository<UserEnt, Integer>, UserRep
     @Query(value = "update users u set u.deleted_date = GETDATE() where u.user_id = ?1", nativeQuery = true)
     void softDelete(Integer id);
 
-    void deleteByDeletedDateEquals(int id);
+    @Query(value = "select u from UserEnt u where u.deletedDate is null ")
+    List<UserEnt> findAll();
 }
