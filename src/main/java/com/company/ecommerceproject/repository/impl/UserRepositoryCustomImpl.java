@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -26,8 +27,7 @@ public class UserRepositoryCustomImpl implements UserRepositoryCustom {
         if (userEntToDelete.getUuid() == null || userEntToDelete.getUuid().isEmpty()) {
             userEntToDelete.setUuid(UUID.randomUUID().toString());
         }
-        Date deletedDate = new Date();
-        userEntToDelete.setDeletedDate(deletedDate);
+        userEntToDelete.setDeletedDate(LocalDateTime.now());
         userEntToDelete = getEntityManager().merge(userEntToDelete);
     }
 }

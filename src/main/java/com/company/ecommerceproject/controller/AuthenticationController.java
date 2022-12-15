@@ -1,25 +1,17 @@
 package com.company.ecommerceproject.controller;
 
 import com.company.ecommerceproject.dto.request.LoginRequest;
-import com.company.ecommerceproject.dto.response.JwtResponse;
-import com.company.ecommerceproject.security.JwtAuthenticationResponse;
+import com.company.ecommerceproject.security.JwtResponse;
 import com.company.ecommerceproject.service.impl.UserDetailsServiceImpl;
-import com.company.ecommerceproject.ultis.DataUtils;
 import com.company.ecommerceproject.ultis.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

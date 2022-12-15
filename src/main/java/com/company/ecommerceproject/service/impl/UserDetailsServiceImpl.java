@@ -40,7 +40,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             for (Role role: roles) {
                 grantedAuthorities.add(new SimpleGrantedAuthority(jwtTokenUtil.getRolePrefix() + role.getName()));
             }
-            return new User(userEnt.getEmail(), userEnt.getEncryptedPassword(), grantedAuthorities);
+            return new User(userEnt.getEmail(), userEnt.getPassword(), grantedAuthorities);
         }
     }
 }

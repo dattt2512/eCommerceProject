@@ -34,12 +34,8 @@ public class OrderServiceImpl implements OrderService {
     private OrderDetailsRepository orderDetailsRepo;
 
     @Override
-    public Page<Order> listAll(int pageNum) {
-        int pageSize = 5;
-
-        Pageable pageable = PageRequest.of(pageNum - 1, pageSize);
-
-        return orderRepo.findAll(pageable);
+    public List<Order> listAll() {
+        return orderRepo.findAll();
     }
 
     @Override
@@ -95,9 +91,15 @@ public class OrderServiceImpl implements OrderService {
         if (order == null) {
             return null;
         }
-        return new OrderInfo(order.getId(), order.getOrderDate(),
-                order.getOrderNum(), order.getAmount(), order.getCustomerName(),
-                order.getCustomerAddress(), order.getCustomerEmail(), order.getCustomerPhone());
+        return new OrderInfo(order.getId(),
+                order.getOrderDate(),
+                order.getOrderNum(),
+                order.getAmount(),
+                order.getCustomerName(),
+                order.getCustomerAddress(),
+                order.getCustomerEmail(),
+                order.getCustomerPhone(),
+                this.listOrderDetailInfos(orderId));
     }
 
     @Override

@@ -1,20 +1,16 @@
 package com.company.ecommerceproject.service;
 
-import com.company.ecommerceproject.entities.UserEnt;
-import com.company.ecommerceproject.service.dto.UserFormDTO;
+import com.company.ecommerceproject.dto.response.UserDTO;
 import com.company.ecommerceproject.exception.UserNotFoundException;
-import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 public interface UserService {
-    public Page<UserEnt> listAll(int pageNum);
+    public List<UserDTO> listAll();
 
-    UserEnt getUserById(Integer id) throws UserNotFoundException;
+    UserDTO getUserById(Integer id) throws UserNotFoundException;
 
-    UserEnt save(UserEnt userEnt);
+    UserDTO save(UserDTO userDTO);
 
-    UserEnt createRegisterUser(UserFormDTO userFormDTO);
-
-    void setDefaultPermission(UserEnt newUserEnt);
-
-    void softDelete(Integer id) throws UserNotFoundException;
+    void delete(Integer id) throws UserNotFoundException;
 }
