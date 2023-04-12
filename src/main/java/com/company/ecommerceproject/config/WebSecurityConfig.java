@@ -28,9 +28,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Autowired
     private AppConfig appConfig;
 
     @Autowired
@@ -46,14 +43,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         authProvider.setPasswordEncoder(this.appConfig.passwordEncoder());
 
         return authProvider;
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("admin@gmail.com")
-                .password(appConfig.passwordEncoder().encode("admin@123")).roles("ADMIN");
-
-        auth.userDetailsService(userDetailsService).passwordEncoder(appConfig.passwordEncoder());
     }
 
     @Override
