@@ -40,12 +40,11 @@ public class AdminController {
             throw new RuntimeException(e);
         }
     }
-
+  
     @PutMapping("/{id}")
     public UserDTO updateUser(@RequestBody UserDTO user) {
         return userService.save(user);
     }
-
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable("id") Integer id, RedirectAttributes ra) {
         try {
